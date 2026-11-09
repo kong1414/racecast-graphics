@@ -1,0 +1,44 @@
+{
+  "name": "apex-race-graphics",
+  "version": "1.0.0",
+  "description": "APEX 赛车字幕播出控制台",
+  "main": "electron/main.cjs",
+  "author": "APEX Graphics",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/index.cjs",
+    "test": "node --test tests/*.test.cjs",
+    "test:ui": "playwright test",
+    "package:win": "electron-builder --win dir portable"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "studio.apex.racegraphics",
+    "productName": "APEX赛车字幕",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "server/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        "dir",
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "APEX-Race-Graphics-${version}-portable.exe"
+    }
+  }
+}

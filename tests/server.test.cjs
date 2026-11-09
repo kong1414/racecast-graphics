@@ -1,0 +1,9 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {createServer}=require('../server/index.cjs');
+test('HTTP control, SSE output, auth, persistence and recovery',async()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'apex-test-'));let app=await createServer({port:0,dataDir:dir});let origin='http://127.0.0.1:'+app.port;const post=(body,token=app.token,extra={})=>fetch(origin+'/api/action',{method:'POST',headers:{'Content-Type':'application/json','X-Apex-Token':token,...extra},body:JSON.stringify(body)});try{
+ assert.equal((await fetch(origin+'/output')).status,200);assert.match(await(await fetch(origin+'/output')).text(),/graphics.js/);
+ assert.equal((await post({type:'take'},'bad')).status,403);assert.equal((await post({type:'take'},app.token,{Origin:'https://attacker.example'})).status,403);
+ const abort=new AbortController();const events=await fetch(origin+'/events?channel=program',{signal:abort.signal});const reader=events.body.getReader();const first=new TextDecoder().decode((await reader.read()).value);assert.match(first,/data: /);assert.ok(!first.includes(app.token));
+ assert.equal((await post({type:'take'})).status,200);const update=new TextDecoder().decode((await reader.read()).value);assert.match(update,/"enabled":true/);abort.abort();
+ assert.equal((await post({type:'event',patch:{name:'Persistence Test'}})).status,200);assert.equal((await post({type:'take',expectedRevision:-1})).status,409);
+ await app.close();app=await createServer({port:0,dataDir:dir});origin='http://127.0.0.1:'+app.port;assert.equal(app.getState().event.name,'Persistence Test');assert.ok(app.getState().program.layers.every(l=>!l.enabled));
+ }finally{await app.close();fs.rmSync(dir,{recursive:true,force:true});}});

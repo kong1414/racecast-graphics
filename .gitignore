@@ -1,0 +1,15 @@
+node_modules/
+release/
+delivery-build/
+.build-output/
+交付包/
+data/
+test-results/
+playwright-report/
+.cache/
+.test-data/
+*.log
+APEX赛车字幕.exe
+微信图片_*.jpg
+.DS_Store
+Thumbs.db
