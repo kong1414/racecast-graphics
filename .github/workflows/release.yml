@@ -73,3 +73,9 @@ jobs:
             gh release create $env:RELEASE_TAG $assets --repo $env:GITHUB_REPOSITORY --title "RaceCast Graphics $env:RELEASE_TAG" --generate-notes
             if ($LASTEXITCODE -ne 0) { throw "Failed to create GitHub Release" }
           }
+          $release = gh api "repos/$env:GITHUB_REPOSITORY/releases/tags/$env:RELEASE_TAG" | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0) { throw "Failed to read release state" }
+          if ($release.draft) {
+            gh api --method PATCH "repos/$env:GITHUB_REPOSITORY/releases/$($release.id)" -F draft=false | Out-Null
+            if ($LASTEXITCODE -ne 0) { throw "Failed to publish draft release" }
+          }
