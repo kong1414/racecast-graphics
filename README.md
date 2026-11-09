@@ -1,6 +1,6 @@
 <div align="center">
 
-# APEX Race Graphics
+# RaceCast Graphics
 
 **A local racing broadcast console with PVW/PGM switching, live timing, 28 graphic templates, and transparent HTML5 output.**
 
@@ -21,7 +21,7 @@
 
 ## Overview
 
-APEX Race Graphics is a Windows desktop application for preparing and broadcasting racing graphics. An Electron console controls a local Node.js service, while dedicated HTML5 pages render preview and program output for OBS Studio and vMix.
+RaceCast Graphics is a Windows desktop application for preparing and broadcasting racing graphics. An Electron console controls a local Node.js service, while dedicated HTML5 pages render preview and program output for OBS Studio and vMix.
 
 The application is designed for local, offline production:
 
@@ -32,7 +32,7 @@ The application is designed for local, offline production:
 
 All built-in event, driver, team, timing, and points data is fictional sample content.
 
-![APEX control console](artifacts/控制台.png)
+![RaceCast control console](artifacts/控制台.png)
 
 ## Contents
 
@@ -62,7 +62,7 @@ All built-in event, driver, team, timing, and points data is fictional sample co
 | Roster management | Unique car numbers, Chinese/English/short names, three-letter nationality codes, teams, categories, cars, team colors, driver photos, and roster search |
 | Scene workflow | Named scene presets, preview loading, category filters, list pagination, automatic paging, row-count control, and per-layer data selection |
 | Visual customization | Accent/background/text colors, panel opacity, timing font size, name display mode, title/body overrides, X/Y position, width, scale, and default-layout restore |
-| Data integration | Manual timing, roster CSV, timing CSV, complete `.apex.json` projects, local JSON-over-HTTP writes, and Server-Sent Events for state synchronization |
+| Data integration | Manual timing, roster CSV, timing CSV, complete `.racecast.json` projects, local JSON-over-HTTP writes, and Server-Sent Events for state synchronization |
 | Output | Transparent 1920 × 1080 HTML5, proportional scaling, full-program or single-layer URLs, black/green backgrounds, and a 90% safe-area guide |
 | Local workspace | Autosave, previous-version `.bak`, complete project export/import, embedded images, configurable data directory, and portable-folder storage |
 | Desktop operation | Electron app or browser console, single-instance behavior, automatic port fallback, output-window support, and sandboxed renderer pages |
@@ -123,11 +123,11 @@ All 28 templates share the same live event and timing state. Availability of a f
 
 ### Option A: Portable Windows app
 
-1. Obtain or build `APEX-Race-Graphics-1.0.0-portable.exe`.
+1. Obtain or build `RaceCast-Graphics-1.0.0-portable.exe`.
 2. Run the executable. No Node.js installation is required.
 3. Wait for the first launch to extract its runtime files.
 4. Confirm that the console shows **Local service connected**.
-5. Keep APEX running whenever OBS or vMix uses its output.
+5. Keep RaceCast running whenever OBS or vMix uses its output.
 
 For a full-folder build, keep the executable together with `resources`, `locales`, DLLs, and the other generated runtime files.
 
@@ -153,8 +153,8 @@ The desktop app tries ports `9860–9869`. If another process occupies the defau
 ### Try the sample workspace
 
 - Use the built-in Silverstone sample to explore the interface.
-- Open `examples/演示工程.apex.json` to restore the sample project.
-- Open `examples/空白赛事.apex.json` to start with a blank event.
+- Open `examples/演示工程.racecast.json` to restore the sample project.
+- Open `examples/空白赛事.racecast.json` to start with a blank event.
 
 ## Your First Broadcast
 
@@ -224,7 +224,7 @@ The design canvas is 1920 × 1080 and scales proportionally to the browser viewp
 ### OBS Studio
 
 1. Add a **Browser** source.
-2. Paste the actual `/output` URL from APEX.
+2. Paste the actual `/output` URL from RaceCast.
 3. Set width to `1920` and height to `1080`.
 4. Set 50 or 60 fps to match the production environment.
 5. Take a test layer and verify both content and transparency.
@@ -254,7 +254,7 @@ Each session retains its own timing records. Switching sessions clears program, 
 
 ### Timing fields
 
-Depending on the selected view, APEX can display and store:
+Depending on the selected view, RaceCast can display and store:
 
 - `position`, `laps`, `bestMs`, `lastMs`
 - `gap`, `interval`
@@ -274,7 +274,7 @@ This measures **PIT IN → PIT OUT**, not stationary tyre-change time.
 
 ### Flags, penalties, and results
 
-APEX displays operator- or adapter-supplied race-control information. It does not apply sporting penalties, recalculate official positions, award points, or determine champions.
+RaceCast displays operator- or adapter-supplied race-control information. It does not apply sporting penalties, recalculate official positions, award points, or determine champions.
 
 Final results display **PROVISIONAL** until an operator explicitly confirms them as **OFFICIAL**.
 
@@ -292,12 +292,12 @@ The demo simulator updates lap times and gaps every 2.5 seconds. It does not sim
 
 ### Local HTTP API
 
-Writing requires the random token generated for the current application run. Find it under **Output & Settings → Show current API token**, then send it in `X-Apex-Token`.
+Writing requires the random token generated for the current application run. Find it under **Output & Settings → Show current API token**, then send it in `X-RaceCast-Token`.
 
 ```http
 POST /api/timing
 Content-Type: application/json
-X-Apex-Token: <current-run-token>
+X-RaceCast-Token: <current-run-token>
 ```
 
 ```json
@@ -324,14 +324,14 @@ See [docs/API.md](docs/API.md) for state snapshots, SSE, project export, control
 
 | File | Purpose |
 | --- | --- |
-| `examples/空白赛事.apex.json` | Blank event project |
-| `examples/演示工程.apex.json` | Fictional Silverstone sample project |
+| `examples/空白赛事.racecast.json` | Blank event project |
+| `examples/演示工程.racecast.json` | Fictional Silverstone sample project |
 | `examples/车手导入模板.csv` | Roster CSV template |
 | `examples/计时导入模板.csv` | Timing CSV template |
 
 ### Project export
 
-Use **Export Project** or **Ctrl+S** to download a complete `.apex.json` file. It includes:
+Use **Export Project** or **Ctrl+S** to download a complete `.racecast.json` file. It includes:
 
 - Event details and every session's timing data
 - Drivers, teams, and embedded photos/logos
@@ -342,9 +342,9 @@ Opening a project replaces current data, clears program, and leaves the clock pa
 
 ### Autosave and backup
 
-- Desktop default: `%APPDATA%/apex-race-graphics/projects`
+- Desktop default: `%APPDATA%/racecast-graphics/projects`
 - Source server default: `data/`
-- Custom location: set `APEX_DATA_DIR`
+- Custom location: set `RACECAST_DATA_DIR`
 - Active location: shown under **Output & Settings**
 
 Changes are saved automatically. The previous saved version is retained as `.bak`. A portable-folder distribution can store its profile and projects beside the executable when `portable-mode.json` is present.
@@ -418,7 +418,7 @@ See [docs/验证记录.md](docs/验证记录.md) for the current verification re
 ### Project structure
 
 ```text
-apex-race-graphics/
+racecast-graphics/
 ├── electron/             Desktop lifecycle and window security
 ├── server/               Local HTTP service, validation, and persistence
 ├── public/               Console, shared model, and HTML5 graphics
@@ -435,7 +435,7 @@ apex-race-graphics/
 <details>
 <summary><strong>Why is my OBS or vMix output empty?</strong></summary>
 
-Confirm that APEX is running, the console is connected, the layer is in PGM rather than only PVW, output is not paused, and the browser source uses the current port. For a single-layer URL, also confirm that the selected template is on air.
+Confirm that RaceCast is running, the console is connected, the layer is in PGM rather than only PVW, output is not paused, and the browser source uses the current port. For a single-layer URL, also confirm that the selected template is on air.
 
 </details>
 
@@ -510,4 +510,4 @@ Issues and pull requests are welcome. For a code change:
 
 Distributed under the [MIT License](LICENSE).
 
-© APEX Graphics contributors
+© RaceCast Graphics contributors

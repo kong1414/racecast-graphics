@@ -4,7 +4,7 @@
 
 ## 认证
 
-每次启动生成随机令牌。打开「输出与设置」→「显示本次启动的接口令牌」。所有写请求使用 `X-Apex-Token` 请求头、`Content-Type: application/json`。本机程序也可通过 `GET /api/bootstrap` 读取本次令牌；不要把令牌放在直播画面或发给不受信任的页面。
+每次启动生成随机令牌。打开「输出与设置」→「显示本次启动的接口令牌」。所有写请求使用 `X-RaceCast-Token` 请求头、`Content-Type: application/json`。本机程序也可通过 `GET /api/bootstrap` 读取本次令牌；不要把令牌放在直播画面或发给不受信任的页面。
 
 ## 推送计时
 
@@ -34,7 +34,7 @@ PowerShell 示例：
 $origin = 'http://127.0.0.1:9860'
 $boot = Invoke-RestMethod "$origin/api/bootstrap"
 $body = @{ source='计时适配器'; rows=@(@{number='7';position=1;laps=20;bestMs=104000;gap='LEADER';status='RUN'}) } | ConvertTo-Json -Depth 5
-Invoke-RestMethod "$origin/api/timing" -Method Post -ContentType 'application/json' -Headers @{'X-Apex-Token'=$boot.token} -Body ([System.Text.Encoding]::UTF8.GetBytes($body))
+Invoke-RestMethod "$origin/api/timing" -Method Post -ContentType 'application/json' -Headers @{'X-RaceCast-Token'=$boot.token} -Body ([System.Text.Encoding]::UTF8.GetBytes($body))
 ```
 
 ## 读取与订阅

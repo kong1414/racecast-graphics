@@ -27,7 +27,7 @@
    case 'team':{const members=d?s.drivers.filter(x=>x.team===d.team):[];return `<div class="panel">${title(d?.category)}<div class="lower-main">${d?chip(d):''}<div class="driver-text"><h1 class="team-title">${E(d?.team)}</h1><p>${members.map(x=>`#${E(x.number)} ${name(x)}`).join('　 /　 ')}</p></div><div class="metric">${E(d?.car)}<small>TEAM PROFILE</small></div></div></div>`;}
    case 'clock':return `<div class="clock-box"><small>${E(l.title||(s.timer.mode==='down'?'TIME REMAINING':'ELAPSED TIME'))}</small>${R.duration(R.clock(s,now))}</div>`;
    case 'topbar':return `<div class="session-bar"><div><strong>${E(l.title||s.event.name)}</strong><small>${E(ss.name)} · ${E(s.event.round)}</small></div><div class="lap-number">${ss.type==='race'?`${ss.laps}<small> / ${ss.totalLaps||'—'} LAPS</small>`:ss.type==='qualifying'?'QUALI':'PRACTICE'}</div></div>`;
-   case 'logo':return `<div class="brand">${s.event.logo?`<img src="${E(s.event.logo)}" alt="赛事标志">`:E(l.title||'APEX / GT')}<small>${E(l.text||'MOTORSPORT')}</small></div>`;
+   case 'logo':return `<div class="brand">${s.event.logo?`<img src="${E(s.event.logo)}" alt="赛事标志">`:E(l.title||'RaceCast / GT')}<small>${E(l.text||'MOTORSPORT')}</small></div>`;
    case 'corner':return `<div class="badge"><i class="live-dot"></i>${E(l.title||'LIVE')} <small>${E(l.text||s.event.round)}</small></div>`;
    case 'replay':case 'startReplay':case 'formation':case 'highlights':return `<div class="badge">${id==='replay'?'↶ ':''}${E(l.title||t.en)}</div>`;
    case 'subtitle':return `<div class="panel">${title(l.text?'':'INFORMATION')}<div class="lower-main"><div class="custom-copy">${E(l.text||s.event.subtitle)}</div></div></div>`;

@@ -19,7 +19,7 @@ async function createServer({port=9860,dataDir=path.join(__dirname,'../data'),ho
   if(req.method==='GET'&&url.pathname==='/api/project'){const snapshot=R.clone(state);snapshot.timer.value=R.clock(state);snapshot.timer.running=false;return json(res,200,snapshot);}
   if(req.method==='GET'&&url.pathname==='/events'){res.writeHead(200,{'Content-Type':'text/event-stream','Cache-Control':'no-cache','Connection':'keep-alive'});clients.set(res,url.searchParams.get('channel')||'control');res.write(`data: ${JSON.stringify(view())}\n\n`);req.on('close',()=>clients.delete(res));return;}
   if(req.method==='POST'&&['/api/action','/api/timing'].includes(url.pathname)){
-   if(req.headers['x-apex-token']!==token)return json(res,403,{error:'控制令牌无效，请刷新控制台'});
+   if(req.headers['x-racecast-token']!==token)return json(res,403,{error:'控制令牌无效，请刷新控制台'});
    if(!String(req.headers['content-type']).startsWith('application/json'))return json(res,415,{error:'请使用 application/json'});
    let size=0,parts=[];try{for await(const chunk of req){size+=chunk.length;if(size>30*1024*1024){json(res,413,{error:'工程超过 30 MB'});req.resume();return;}parts.push(chunk);}const data=JSON.parse(Buffer.concat(parts).toString('utf8'));if(data.expectedRevision!==undefined&&data.expectedRevision!==state.revision)return json(res,409,{error:'工程已被更新，请刷新后重试'});const a=url.pathname==='/api/timing'?{type:'feed',rows:data.rows,source:data.source}:data;return json(res,200,change(a));}catch(e){return json(res,400,{error:e.message});}
   }
@@ -33,5 +33,5 @@ async function createServer({port=9860,dataDir=path.join(__dirname,'../data'),ho
  const expiry=setInterval(()=>{let changed=false;const now=Date.now();for(const l of state.program.layers)if(l.enabled&&l.expiresAt&&l.expiresAt<=now){l.enabled=false;changed=true;}if(state.timer.running&&state.timer.mode==='down'&&R.clock(state,now)===0){state.timer.running=false;state.timer.value=0;changed=true;}if(changed){state.revision++;dirty=true;persist();broadcast();}},200);
  return {server,port:server.address().port,token,getState:()=>R.clone(state),change,close:async()=>{if(closed)return;closed=true;clearInterval(tick);clearInterval(heartbeat);clearInterval(expiry);clearTimeout(saveTask);dirty=true;persist();for(const c of clients.keys())c.end();await new Promise(resolve=>server.close(resolve));}};
 }
-if(require.main===module){createServer({port:Number(process.env.PORT)||9860,dataDir:process.env.APEX_DATA_DIR||path.join(__dirname,'../data')}).then(app=>{console.log(`APEX ready: http://127.0.0.1:${app.port}`);for(const sig of ['SIGINT','SIGTERM'])process.on(sig,()=>app.close().then(()=>process.exit()));}).catch(e=>{console.error(e);process.exit(1);});}
+if(require.main===module){createServer({port:Number(process.env.PORT)||9860,dataDir:process.env.RACECAST_DATA_DIR||path.join(__dirname,'../data')}).then(app=>{console.log(`RaceCast ready: http://127.0.0.1:${app.port}`);for(const sig of ['SIGINT','SIGTERM'])process.on(sig,()=>app.close().then(()=>process.exit()));}).catch(e=>{console.error(e);process.exit(1);});}
 module.exports={createServer};

@@ -1,4 +1,4 @@
-# APEX 赛车字幕用户手册
+# RaceCast 赛车字幕播出系统用户手册
 
 本手册面向赛事字幕操作员，说明如何启动程序、建立赛事、维护车手与计时、切出字幕，并将透明画面接入 OBS Studio 或 vMix。
 
@@ -9,15 +9,15 @@
 - Windows 10/11 64 位。
 - 便携版无需安装 Node.js。
 - 源码版使用 Node.js 24 和 npm。
-- OBS 或 vMix 与 APEX 运行在同一台电脑。
+- OBS 或 vMix 与 RaceCast 运行在同一台电脑。
 - 输出按 1920 × 1080 设计，可随浏览器源等比缩放。
 
 ### 1.2 启动便携版
 
-1. 双击 `APEX-Race-Graphics-1.0.0-portable.exe`。
+1. 双击 `RaceCast-Graphics-1.0.0-portable.exe`。
 2. 首次启动需要解压组件，请稍等。
 3. 控制台顶部显示「本地服务已连接」后即可操作。
-4. 播出期间不要关闭 APEX；关闭程序后，OBS / vMix 将无法继续读取字幕页面。
+4. 播出期间不要关闭 RaceCast；关闭程序后，OBS / vMix 将无法继续读取字幕页面。
 
 如果使用完整文件夹版，必须保留 EXE 同目录下的 `resources`、`locales`、DLL 和其他运行文件，不能只复制 EXE。
 
@@ -60,7 +60,7 @@ npm run server
 
 开始正式工作前，建议先选择一种方式：
 
-- 点击顶部「打开工程」，选择 `examples/空白赛事.apex.json`。
+- 点击顶部「打开工程」，选择 `examples/空白赛事.racecast.json`。
 - 或点击「导出工程」保存当前演示，再直接修改各项资料。
 
 打开工程会替换当前数据并清空播出。若当前工程仍需保留，请先导出备份。
@@ -192,7 +192,7 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 
 1. 进入「输出与设置」。
 2. 点击「显示本次启动的接口令牌」。
-3. 在请求的 `X-Apex-Token` 请求头中使用该令牌。
+3. 在请求的 `X-RaceCast-Token` 请求头中使用该令牌。
 
 完整字段、示例和读取接口见 [本机数据接口](API.md)。不要把令牌放进直播画面或发送到不受信任的页面。
 
@@ -266,13 +266,13 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 
 ## 6. 接入 OBS Studio
 
-1. 保持 APEX 运行。
+1. 保持 RaceCast 运行。
 2. 进入「输出与设置」，复制「透明输出地址」。
 3. 在 OBS 中添加「浏览器」源。
 4. 将地址粘贴到 URL。
 5. 宽度填写 `1920`，高度填写 `1080`。
 6. 帧率设置为 50 或 60，与节目制作设置一致。
-7. 在 APEX 中切出一个图层，确认 OBS 画面同步出现。
+7. 在 RaceCast 中切出一个图层，确认 OBS 画面同步出现。
 
 通常为 `http://127.0.0.1:9860/output`。若端口被占用，桌面版会尝试 9861–9869，因此不要手动沿用旧端口，应复制当前地址。
 
@@ -281,7 +281,7 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 ## 7. 接入 vMix
 
 1. 在 vMix 中添加 **Web Browser** 输入。
-2. 使用 APEX 显示的 `/output` 地址。
+2. 使用 RaceCast 显示的 `/output` 地址。
 3. 设置 1920 × 1080 画布。
 4. 切出一个测试图层，确认画面和透明区域正常。
 5. 正式播出前，按实际帧率和图层组合进行联调。
@@ -314,7 +314,7 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 
 ### 9.2 导出与打开工程
 
-- 点击「导出工程」或按 Ctrl+S，下载完整 `.apex.json`。
+- 点击「导出工程」或按 Ctrl+S，下载完整 `.racecast.json`。
 - 工程包含各场次计时、名单、内嵌图片、预览 / 播出模板和场景预设。
 - 建议在每个比赛日前导出一份，并使用日期和场次命名。
 - 「打开工程」会替换当前数据、清空播出并暂停时钟。
@@ -324,10 +324,10 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 桌面版通常保存到：
 
 ```text
-%APPDATA%/apex-race-graphics/projects
+%APPDATA%/racecast-graphics/projects
 ```
 
-源码服务器版保存到项目目录的 `data/`。可通过 `APEX_DATA_DIR` 指定其他目录。实际位置以「输出与设置」中显示的目录为准。
+源码服务器版保存到项目目录的 `data/`。可通过 `RACECAST_DATA_DIR` 指定其他目录。实际位置以「输出与设置」中显示的目录为准。
 
 每次修改自动保存，并保留上一个版本 `.bak`。保存失败时，控制台底部会显示警告。
 
@@ -337,7 +337,7 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 
 依次检查：
 
-1. APEX 是否仍在运行。
+1. RaceCast 是否仍在运行。
 2. 控制台是否显示「本地服务已连接」。
 3. 图层是否已切出到 PGM，而不仅是加入 PVW。
 4. 「输出与设置」是否处于「暂停输出」状态。
@@ -350,7 +350,7 @@ number,position,laps,bestMs,lastMs,gap,interval,status,tyre,s1,s2,s3,penalty
 
 ### 浏览器源显示断开或旧画面
 
-确认 APEX 正在运行后，刷新 OBS 浏览器源或重新加载 vMix Web Browser 输入。输出页面会自动重连；断线期间浏览器可能保留最后画面，因此恢复后应核对当前 PGM。
+确认 RaceCast 正在运行后，刷新 OBS 浏览器源或重新加载 vMix Web Browser 输入。输出页面会自动重连；断线期间浏览器可能保留最后画面，因此恢复后应核对当前 PGM。
 
 ### 修改了属性，但播出没有变化
 

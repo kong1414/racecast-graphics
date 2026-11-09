@@ -1,6 +1,6 @@
 <div align="center">
 
-# APEX 赛车字幕播出控制台
+# RaceCast 赛车字幕播出系统
 
 **在本机完成赛车字幕预览、播出切换、实时计时与 28 种模板渲染，并向 OBS Studio / vMix 提供透明 HTML5 输出。**
 
@@ -18,7 +18,7 @@
 
 ## 项目简介
 
-APEX 赛车字幕是一款 Windows 本机播出的赛车字幕工具。Electron 控制台连接本地 Node.js 服务，独立的 HTML5 页面负责预览和播出渲染，可直接作为 OBS Studio 或 vMix 的浏览器源。
+RaceCast 赛车字幕播出系统是一款 Windows 本机播出的赛车字幕工具。Electron 控制台连接本地 Node.js 服务，独立的 HTML5 页面负责预览和播出渲染，可直接作为 OBS Studio 或 vMix 的浏览器源。
 
 软件面向本地、离线制作流程：
 
@@ -29,7 +29,7 @@ APEX 赛车字幕是一款 Windows 本机播出的赛车字幕工具。Electron 
 
 内置赛事、车手、车队、圈速和积分均为虚构演示数据。
 
-![APEX 控制台](artifacts/控制台.png)
+![RaceCast 控制台](artifacts/控制台.png)
 
 ## 目录
 
@@ -59,7 +59,7 @@ APEX 赛车字幕是一款 Windows 本机播出的赛车字幕工具。Electron 
 | 名单管理 | 唯一车号、中英文名、简称、三字母国籍代码、车队、组别、赛车、车队颜色、车手形象照和名单搜索 |
 | 场景工作流 | 命名场景预设、加载到预览、组别筛选、榜单分页、自动翻页、行数设置和图层数据选择 |
 | 视觉定制 | 强调色、底色、文字色、不透明度、榜单字号、姓名显示方式、标题 / 正文、X/Y 坐标、宽度、缩放和默认布局恢复 |
-| 数据接入 | 手动计时、名单 CSV、计时 CSV、完整 `.apex.json` 工程、本机 HTTP JSON 写入，以及 SSE 状态同步 |
+| 数据接入 | 手动计时、名单 CSV、计时 CSV、完整 `.racecast.json` 工程、本机 HTTP JSON 写入，以及 SSE 状态同步 |
 | 输出能力 | 1920 × 1080 透明 HTML5、等比缩放、完整播出 / 单图层地址、黑底 / 绿底检查和 90% 安全框 |
 | 本地工作区 | 自动保存、上一版本 `.bak`、完整工程导入 / 导出、图片内嵌、自定义数据目录和便携文件夹存储 |
 | 桌面运行 | Electron 或浏览器控制台、单实例运行、端口自动回退、独立输出窗口，以及沙箱化渲染页面 |
@@ -120,11 +120,11 @@ APEX 赛车字幕是一款 Windows 本机播出的赛车字幕工具。Electron 
 
 ### 方式 A：Windows 便携版
 
-1. 获取或构建 `APEX-Race-Graphics-1.0.0-portable.exe`。
+1. 获取或构建 `RaceCast-Graphics-1.0.0-portable.exe`。
 2. 双击运行，无需安装 Node.js。
 3. 首次启动需要解压运行组件，请稍等。
 4. 确认控制台显示「本地服务已连接」。
-5. OBS 或 vMix 使用输出期间，请保持 APEX 运行。
+5. OBS 或 vMix 使用输出期间，请保持 RaceCast 运行。
 
 如果使用完整文件夹版，请保留 EXE 同目录下的 `resources`、`locales`、DLL 和其他运行文件。
 
@@ -150,8 +150,8 @@ npm run server
 ### 体验演示工作区
 
 - 使用内置银石站演示熟悉界面。
-- 打开 `examples/演示工程.apex.json` 可恢复演示工程。
-- 打开 `examples/空白赛事.apex.json` 可从空白赛事开始。
+- 打开 `examples/演示工程.racecast.json` 可恢复演示工程。
+- 打开 `examples/空白赛事.racecast.json` 可从空白赛事开始。
 
 ## 完成第一次播出
 
@@ -221,7 +221,7 @@ npm run server
 ### OBS Studio
 
 1. 添加「浏览器」源。
-2. 粘贴 APEX 显示的实际 `/output` 地址。
+2. 粘贴 RaceCast 显示的实际 `/output` 地址。
 3. 宽度填写 `1920`，高度填写 `1080`。
 4. 帧率设置为 50 或 60，与制作环境一致。
 5. 切出一个测试图层，确认内容和透明区域。
@@ -251,7 +251,7 @@ npm run server
 
 ### 计时字段
 
-根据不同字幕的用途，APEX 可保存并显示：
+根据不同字幕的用途，RaceCast 可保存并显示：
 
 - `position`、`laps`、`bestMs`、`lastMs`
 - `gap`、`interval`
@@ -271,7 +271,7 @@ PIT IN 记录服务器时间并将状态改为 `PIT`；PIT OUT 保存经过时�
 
 ### 旗号、处罚与成绩
 
-APEX 展示操作员或适配器提供的赛事控制信息，不自动执行竞赛处罚、重算官方名次、授予积分或判定冠军。
+RaceCast 展示操作员或适配器提供的赛事控制信息，不自动执行竞赛处罚、重算官方名次、授予积分或判定冠军。
 
 最终成绩默认显示 **PROVISIONAL / 暂定**，只有操作员明确确认后才显示 **OFFICIAL**。
 
@@ -289,12 +289,12 @@ APEX 展示操作员或适配器提供的赛事控制信息，不自动执行竞
 
 ### 本机 HTTP 接口
 
-写操作需要本次启动生成的随机令牌。在「输出与设置 → 显示本次启动的接口令牌」获取，并放入 `X-Apex-Token` 请求头。
+写操作需要本次启动生成的随机令牌。在「输出与设置 → 显示本次启动的接口令牌」获取，并放入 `X-RaceCast-Token` 请求头。
 
 ```http
 POST /api/timing
 Content-Type: application/json
-X-Apex-Token: <本次启动令牌>
+X-RaceCast-Token: <本次启动令牌>
 ```
 
 ```json
@@ -321,14 +321,14 @@ X-Apex-Token: <本次启动令牌>
 
 | 文件 | 用途 |
 | --- | --- |
-| `examples/空白赛事.apex.json` | 空白赛事工程 |
-| `examples/演示工程.apex.json` | 银石站虚构演示工程 |
+| `examples/空白赛事.racecast.json` | 空白赛事工程 |
+| `examples/演示工程.racecast.json` | 银石站虚构演示工程 |
 | `examples/车手导入模板.csv` | 名单 CSV 模板 |
 | `examples/计时导入模板.csv` | 计时 CSV 模板 |
 
 ### 工程导出
 
-点击「导出工程」或按 **Ctrl+S** 可下载完整 `.apex.json`，其中包括：
+点击「导出工程」或按 **Ctrl+S** 可下载完整 `.racecast.json`，其中包括：
 
 - 赛事资料与所有场次的计时数据
 - 车手、车队、内嵌形象照和赛事标志
@@ -339,9 +339,9 @@ X-Apex-Token: <本次启动令牌>
 
 ### 自动保存与备份
 
-- 桌面版默认：`%APPDATA%/apex-race-graphics/projects`
+- 桌面版默认：`%APPDATA%/racecast-graphics/projects`
 - 源码服务器默认：`data/`
-- 自定义位置：设置 `APEX_DATA_DIR`
+- 自定义位置：设置 `RACECAST_DATA_DIR`
 - 实际位置：在「输出与设置」中显示
 
 每次修改都会自动保存，并保留上一个版本的 `.bak`。便携文件夹版在存在 `portable-mode.json` 时，可将桌面配置和工程保存在软件目录内。
@@ -415,7 +415,7 @@ node tests/smoke-exe.cjs  # 验证打包程序并更新文档截图
 ### 项目结构
 
 ```text
-apex-race-graphics/
+racecast-graphics/
 ├── electron/             桌面生命周期与窗口安全
 ├── server/               本机 HTTP 服务、校验与持久化
 ├── public/               控制台、共享模型与 HTML5 字幕
@@ -432,7 +432,7 @@ apex-race-graphics/
 <details>
 <summary><strong>为什么 OBS 或 vMix 中没有字幕？</strong></summary>
 
-确认 APEX 正在运行、控制台已连接、图层已进入 PGM 而不只是 PVW、输出未暂停，并且浏览器源使用当前端口。使用单图层地址时，还要确认对应模板已经上屏。
+确认 RaceCast 正在运行、控制台已连接、图层已进入 PGM 而不只是 PVW、输出未暂停，并且浏览器源使用当前端口。使用单图层地址时，还要确认对应模板已经上屏。
 
 </details>
 
@@ -507,4 +507,4 @@ apex-race-graphics/
 
 基于 [MIT 许可证](LICENSE)发布。
 
-© APEX Graphics contributors
+© RaceCast Graphics contributors

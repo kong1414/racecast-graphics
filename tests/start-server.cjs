@@ -1,2 +1,2 @@
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path');const {createServer}=require('../server/index.cjs');
-const dataDir=fs.mkdtempSync(path.join(os.tmpdir(),'apex-ui-'));createServer({port:19860,dataDir}).then(server=>{console.log('APEX UI test server ready');for(const sig of ['SIGINT','SIGTERM'])process.on(sig,()=>server.close().then(()=>{fs.rmSync(dataDir,{recursive:true,force:true});process.exit();}));});
+const dataDir=fs.mkdtempSync(path.join(os.tmpdir(),'racecast-ui-'));createServer({port:19860,dataDir}).then(server=>{console.log('RaceCast UI test server ready');for(const sig of ['SIGINT','SIGTERM'])process.on(sig,()=>server.close().then(()=>{fs.rmSync(dataDir,{recursive:true,force:true});process.exit();}));});

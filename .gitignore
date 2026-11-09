@@ -9,7 +9,7 @@ playwright-report/
 .cache/
 .test-data/
 *.log
-APEX赛车字幕.exe
+/*.exe
 微信图片_*.jpg
 .DS_Store
 Thumbs.db

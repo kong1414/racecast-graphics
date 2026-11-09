@@ -1,9 +1,9 @@
 {
-  "name": "apex-race-graphics",
+  "name": "racecast-graphics",
   "version": "1.0.0",
-  "description": "APEX 赛车字幕播出控制台",
+  "description": "RaceCast 赛车字幕播出系统",
   "main": "electron/main.cjs",
-  "author": "APEX Graphics",
+  "author": "RaceCast Graphics",
   "license": "MIT",
   "scripts": {
     "start": "electron .",
@@ -18,8 +18,8 @@
     "electron-builder": "^26.15.3"
   },
   "build": {
-    "appId": "studio.apex.racegraphics",
-    "productName": "APEX赛车字幕",
+    "appId": "studio.racecast.graphics",
+    "productName": "RaceCast 赛车字幕播出系统",
     "directories": {
       "output": "release"
     },
@@ -38,7 +38,7 @@
       "signAndEditExecutable": false
     },
     "portable": {
-      "artifactName": "APEX-Race-Graphics-${version}-portable.exe"
+      "artifactName": "RaceCast-Graphics-${version}-portable.exe"
     }
   }
 }
