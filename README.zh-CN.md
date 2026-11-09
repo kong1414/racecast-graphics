@@ -507,4 +507,4 @@ racecast-graphics/
 
 基于 [MIT 许可证](LICENSE)发布。
 
-© RaceCast Graphics contributors
+© kong1414

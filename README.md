@@ -510,4 +510,4 @@ Issues and pull requests are welcome. For a code change:
 
 Distributed under the [MIT License](LICENSE).
 
-© RaceCast Graphics contributors
+© kong1414
